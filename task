@@ -1,0 +1,59 @@
+如何使用
+onTask
+onFinish
+设置task_worker_num
+
+<?php 
+class serv{
+public $serv; 
+$this->serv->set(array(
+            'worker_num' => 8,
+            'daemonize' => false,
+            'max_request' => 10000,
+            'dispatch_mode' => 2,
+            'debug_mode' => 1,
+            'task_worker_num'=>2
+        ));
+  public function __construct(){
+    $this->$serv= new swoole_websocket_server("127.0.0.1",9501);
+    $this->serv->on('Message',[$this,"onMessahe"]);
+    $this->serv->on('taske',[$this,"onTask"]);
+    $this->serv->on('Open',[$this,"onPen"]);
+    $this->serv->on('finish', array($this, 'onFinish'));
+    $this->serv->on('Close',[$this,"onClose"]);
+  }
+public function onPen($serv,$frame){
+  
+  }
+public function onMessage($serv,$frame){
+     echo 'task:'.PHP_EOL;
+        $taskdata = [
+        	'task'=>1,
+        	'fd'=>$frame->fd
+        ];
+        $server->task($taskdata);
+        $data = [];
+        $server->push($frame->fd, json_encode($data)); //推送
+        
+  }
+  
+   public function onTask($server, $task_id,$work_id,$data)
+    {
+   	var_dump($data);
+   	echo "sleep";
+   	sleep(10);
+   	return "on task finish";
+    }
+      public function onFinish($server, $task_id,$data)
+    {
+  
+   	echo "task_id:". $task_id.PHP_EOL."FIINSHED".PHP_EOL;
+   	echo "DATA:".$data.PHP_EOL;
+    }
+    public function onClose($server, $fd)
+    {
+      
+        echo "connection close: " . $fd;
+    }
+
+}
