@@ -1,0 +1,5 @@
+异步定时器
+swoole_timer_tick（2000,function($time) use($data)）{
+//处理data的逻辑
+}
+swoole_timer_after()
