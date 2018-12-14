@@ -34,9 +34,10 @@ class Asymysql {
 			$db->query($sql,function($db,$r){
 				//$rs返回的是查询的结果及内容
 				if($r===false){
-					echo "error";
+					echo "error".$db->error;//报错;
 				}elseif ($r===true) {
-					echo "succ".$db->error;//影响行数
+					echo "succ".$db->affectd_rows;//影响行数
+				
 				}else{
 					var_dump($r);
 				}
