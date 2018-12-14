@@ -36,7 +36,7 @@ class Asymysql {
 				if($r===false){
 					echo "error";
 				}elseif ($r===true) {
-					echo "succ";
+					echo "succ".$db->error;//影响行数
 				}else{
 					var_dump($r);
 				}
