@@ -1,0 +1,23 @@
+<?php
+/**
+ * 
+ * @authors Your Name (you@example.org)
+ * @date    2018-12-13 19:38:00
+ * @version $Id$
+ */
+//默认是文教大小是4M
+swoole_async_readfile(__DIR__.'/1.txt',function($filename,$filecontent){
+	echo "filename:".$filename.PHP_EOL;
+	echo "filecontent:".$filecontent.PHP_EOL;
+});
+
+//超过4m用swoole_async_read();
+swoole_async_read(__DIR__.'/1.txt',function($filename,$filecontent){
+	echo "read_filename:".$filename.PHP_EOL;
+	echo "read_filecontent:".$filecontent.PHP_EOL;
+},$size=10);
+//异步写入文件
+$content="111111111111111111111111".PHP_EOL;
+swoole_async_writefile(__DIR__."/2.txt",$content,function($filename){
+	echo "SUCCE".PHP_EOL;
+},FILE_APPEND);
