@@ -1,0 +1,48 @@
+<?php
+/**
+ * 
+ * @authors Your Name (you@example.org)
+ * @date    2018-12-14 14:52:41
+ * @version $Id$
+ */
+
+class Asymysql {
+	public  $Asymysql;
+	public  $dbconfig =[];
+	public function  __construct(){
+		$this->Asymysql = new swoole_mysql();
+		$this->dbconfig = array(
+		    'host' => '127.0.0.1',
+		    'port' => 3306,
+		    'user' => 'root',
+		    'password' => '123456',
+		    'database' => 'test',
+		    'charset' => 'utf8', //指定字符集
+		    'timeout' => 2,  // 可选：连接超时时间（非查询超时时间），默认为SW_MYSQL_CONNECT_TIMEOUT（1.0）
+		);
+
+		
+		
+	}
+	public function execute($id){
+		$this->Asymysql->connect($this->dbconfig,function($db,$r) use($id){
+			if($r===false){
+				echo $db->connect_error;
+				return ;
+			}
+			$sql = "select * from msg where id= $id";
+			$db->query($sql,function($db,$r){
+				//$rs返回的是查询的结果及内容
+				if($r===false){
+					echo "error";
+				}elseif ($r===true) {
+					echo "succ";
+				}else{
+					var_dump($r);
+				}
+			});
+		});
+		return ;
+	}
+}	
+(new Asymysql)->execute(20);
