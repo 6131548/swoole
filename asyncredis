@@ -1,0 +1,23 @@
+<?php
+/**
+ * 
+ * @authors Your Name (you@example.org)
+ * @date    2018-12-15 15:46:04
+ * @version $Id$
+ */
+$AsyncRedis = new swoole_redis();
+ $AsyncRedis->connect("127.0.0.1",6379,function($AsyncRedis,$result){
+ 	echo "SUCCESS".PHP_EOL;
+ 	var_dump($result);
+ 	$AsyncRedis->set('k2','sankoz2',function($AsyncRedis,$result){
+ 		var_dump($result);
+ 	});
+ 	$AsyncRedis->get('k',function($AsyncRedis,$result){
+ 		var_dump($result);
+ 		$AsyncRedis->close();
+ 	});
+ 	$AsyncRedis->keys("*",function($AsyncRedis,$result){
+ 		var_dump($result);
+ 		$AsyncRedis->close();
+ 	});
+ });
